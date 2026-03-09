@@ -1,0 +1,14 @@
+{
+  "name": "blocknote-chart-workspace",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm -w @m0bstos/blocknote-chart run build",
+    "dev:demo": "npm -w demo run dev",
+    "lint": "npm -w @m0bstos/blocknote-chart run lint",
+    "test": "npm -w @m0bstos/blocknote-chart run test"
+  }
+}
