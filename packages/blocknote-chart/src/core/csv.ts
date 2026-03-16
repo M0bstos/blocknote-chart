@@ -15,27 +15,39 @@ export const parseCsvToChartData = (rawCsv: string): ChartData => {
     throw new Error("CSV must include at least one dataset column.");
   }
 
+  if (!headers[0]) {
+    throw new Error("CSV header must include a label column in the first position.");
+  }
+
   const labels: string[] = [];
   const datasets: ChartDataset[] = headers.slice(1).map((header) => ({
     label: header || "Dataset",
     data: [],
-    backgroundColor: "#999",
+    backgroundColor: "#94a3b8",
   }));
 
   for (let rowIndex = 1; rowIndex < rows.length; rowIndex += 1) {
+    const csvRowNumber = rowIndex + 1;
     const cells = rows[rowIndex].split(",").map((cell) => cell.trim());
     if (cells.length !== headers.length) {
       throw new Error(
-        `Row ${rowIndex + 1} has ${cells.length} columns, expected ${headers.length}.`,
+        `Row ${csvRowNumber} has ${cells.length} columns, expected ${headers.length}.`,
       );
     }
 
     labels.push(cells[0]);
     for (let colIndex = 1; colIndex < cells.length; colIndex += 1) {
-      const value = Number(cells[colIndex]);
+      const rawValue = cells[colIndex];
+      if (rawValue === "") {
+        throw new Error(
+          `Invalid number at row ${csvRowNumber}, column ${colIndex + 1}: value is empty.`,
+        );
+      }
+
+      const value = Number(rawValue);
       if (!Number.isFinite(value)) {
         throw new Error(
-          `Invalid number at row ${rowIndex + 1}, column ${colIndex + 1}.`,
+          `Invalid number at row ${csvRowNumber}, column ${colIndex + 1}: "${rawValue}".`,
         );
       }
       datasets[colIndex - 1].data.push(value);

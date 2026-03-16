@@ -1,26 +1,49 @@
 import type { ChartData } from "./types";
 
 export const defaultChartData: ChartData = {
-  labels: ["A", "B", "C"],
-  datasets: [{ label: "Series 1", data: [10, 20, 30], backgroundColor: "#999" }],
+  labels: ["Jan", "Feb", "Mar"],
+  datasets: [
+    {
+      label: "Series 1",
+      data: [12, 19, 8],
+      backgroundColor: "#94a3b8",
+    },
+  ],
 };
 
+const isFiniteNumber = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value);
+
 const isChartData = (value: unknown): value is ChartData => {
-  if (!value || typeof value !== "object") return false;
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
   const data = value as Partial<ChartData>;
-  if (!Array.isArray(data.labels) || !Array.isArray(data.datasets)) return false;
+  if (!Array.isArray(data.labels) || !Array.isArray(data.datasets)) {
+    return false;
+  }
+
+  if (!data.labels.every((label) => typeof label === "string")) {
+    return false;
+  }
 
   return data.datasets.every(
     (dataset) =>
       dataset &&
       typeof dataset.label === "string" &&
       Array.isArray(dataset.data) &&
-      dataset.data.every((point) => typeof point === "number" && Number.isFinite(point)),
+      dataset.data.every(isFiniteNumber) &&
+      (dataset.backgroundColor === undefined ||
+        typeof dataset.backgroundColor === "string"),
   );
 };
 
 export const parseChartData = (input: string | ChartData | null | undefined): ChartData | null => {
-  if (input == null) return null;
+  if (input == null) {
+    return null;
+  }
+
   if (typeof input === "string") {
     try {
       const parsed = JSON.parse(input);
