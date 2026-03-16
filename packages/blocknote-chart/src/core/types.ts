@@ -24,6 +24,12 @@ export interface ChartRendererProps {
 export interface ChartMenuProps {
   chartType: ChartType;
   viewMode: ChartViewMode;
+  onChartTypeChange: (type: ChartType) => void;
+  onViewModeChange: (mode: ChartViewMode) => void;
+  onAddDataset: () => void;
+  onRemoveDataset: () => void;
+  onAddRow: () => void;
+  onRemoveRow: () => void;
 }
 
 export interface ChartTableProps {
