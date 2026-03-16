@@ -1,11 +1,10 @@
 import { createReactBlockSpec } from "@blocknote/react";
 import { defaultProps } from "@blocknote/core";
+import React from "react";
 import { defaultChartData } from "../core/data";
 import type { ChartBlockConfig, ChartType } from "../core/types";
-import React, { createContext, useContext } from "react";
-
-const ChartBlockConfigContext = createContext<ChartBlockConfig | undefined>(undefined);
-export const useChartBlockConfig = () => useContext(ChartBlockConfigContext);
+import { ChartBlockConfigContext } from "./context";
+import { ChartRenderer } from "./ChartRenderer";
 
 const chartPropSchema = {
   textColor: defaultProps.textColor,
@@ -28,7 +27,7 @@ export function createChartBlock(config?: ChartBlockConfig) {
     {
       render: (props) => (
         <ChartBlockConfigContext.Provider value={config}>
-          <div data-chart-type={props.block.props.chartType} />
+          <ChartRenderer block={props.block} editor={props.editor} />
         </ChartBlockConfigContext.Provider>
       ),
     }
