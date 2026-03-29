@@ -3,7 +3,7 @@ import { useChartBlockConfig } from "./context";
 import { parseCsvToChartData } from "../core/csv";
 import type { CsvImportProps } from "../core/types";
 
-const DEFAULT_MAX_BYTES = 2 * 1024 * 1024;
+const DEFAULT_MAX_BYTES = 10 * 1024 * 1024;
 
 export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
   const config = useChartBlockConfig();

@@ -36,6 +36,7 @@ export const ChartTable: React.FC<ChartTableProps> = ({ data, onChange }) => {
 
   return (
     <div className="bn-chart-table-wrapper" contentEditable={false}>
+      <p className="bn-chart-table-heading">Chart Data</p>
       <table className="bn-chart-table">
         <thead>
           <tr>

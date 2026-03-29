@@ -113,6 +113,16 @@
   overflow-x: auto;
 }
 
+.bn-chart-table-heading {
+  margin: 0 0 var(--bn-chart-spacing-sm) 0;
+  padding: var(--bn-chart-spacing-sm) var(--bn-chart-spacing-md);
+  font-size: var(--bn-chart-font-size-sm);
+  font-weight: 600;
+  color: var(--bn-chart-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .bn-chart-table {
   width: 100%;
   border-collapse: collapse;

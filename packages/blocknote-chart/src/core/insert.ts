@@ -1,6 +1,6 @@
 import type { BlockNoteEditor } from "@blocknote/core";
-import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core";
-import type { DefaultSuggestionItem } from "@blocknote/core";
+import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
+import type { DefaultSuggestionItem } from "@blocknote/core/extensions";
 import { defaultChartData } from "./data";
 
 export const insertChart = (
