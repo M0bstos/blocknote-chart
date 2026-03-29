@@ -208,3 +208,55 @@
   color: var(--bn-chart-danger);
   font-size: var(--bn-chart-font-size-sm);
 }
+
+.bn-chart-csv-paste {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bn-chart-spacing-xs);
+}
+
+.bn-chart-csv-paste-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--bn-chart-spacing-sm);
+  border: 1px solid var(--bn-chart-border);
+  border-radius: var(--bn-chart-radius-sm);
+  background: transparent;
+  color: var(--bn-chart-text);
+  font-size: var(--bn-chart-font-size-sm);
+  font-family: monospace;
+  resize: vertical;
+  outline: none;
+}
+
+.bn-chart-csv-paste-input:focus {
+  border-color: var(--bn-chart-focus);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--bn-chart-focus) 30%, transparent);
+}
+
+.bn-chart-csv-paste-btn {
+  align-self: flex-end;
+  padding: var(--bn-chart-spacing-xs) var(--bn-chart-spacing-md);
+  border: 1px solid var(--bn-chart-accent);
+  border-radius: var(--bn-chart-radius-sm);
+  background: var(--bn-chart-accent);
+  color: #ffffff;
+  font-size: var(--bn-chart-font-size-sm);
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+
+.bn-chart-csv-paste-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.bn-chart-csv-paste-btn:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+.bn-chart-csv-paste-btn:focus-visible {
+  outline: 2px solid var(--bn-chart-focus);
+  outline-offset: 2px;
+}

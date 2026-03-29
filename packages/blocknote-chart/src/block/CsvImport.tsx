@@ -13,6 +13,7 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [pasteValue, setPasteValue] = useState("");
 
   const processFile = (file: File) => {
     setError(null);
@@ -53,6 +54,17 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
     if (file) processFile(file);
   };
 
+  const handlePasteImport = () => {
+    const raw = pasteValue.trim();
+    if (!raw) return;
+    setError(null);
+    try {
+      onImport(csvParser(raw));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to parse CSV.");
+    }
+  };
+
   return (
     <div className="bn-chart-csv" contentEditable={false}>
       <div
@@ -76,6 +88,23 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
         </p>
       </div>
       {error && <p className="bn-chart-csv-error">{error}</p>}
+      <div className="bn-chart-csv-paste">
+        <textarea
+          className="bn-chart-csv-paste-input"
+          placeholder="Or paste CSV text here…"
+          value={pasteValue}
+          onChange={(e) => setPasteValue(e.target.value)}
+          rows={4}
+        />
+        <button
+          type="button"
+          className="bn-chart-csv-paste-btn"
+          disabled={!pasteValue.trim()}
+          onClick={handlePasteImport}
+        >
+          Import
+        </button>
+      </div>
     </div>
   );
 };
