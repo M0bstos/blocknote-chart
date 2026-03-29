@@ -1,14 +1,14 @@
 :root {
   --bn-chart-bg: #ffffff;
-  --bn-chart-border: #e2e8f0;
-  --bn-chart-accent: #3b82f6;
-  --bn-chart-accent-subtle: #eff6ff;
+  --bn-chart-border: #e0e0e0;
+  --bn-chart-accent: #1971c2;
+  --bn-chart-accent-subtle: #eaf5ff;
   --bn-chart-focus: #93c5fd;
   --bn-chart-text: #1e293b;
-  --bn-chart-text-muted: #64748b;
+  --bn-chart-text-muted: #95a5a6;
   --bn-chart-danger: #ef4444;
   --bn-chart-danger-subtle: #fef2f2;
-  --bn-chart-radius: 6px;
+  --bn-chart-radius: 8px;
   --bn-chart-radius-sm: 4px;
   --bn-chart-spacing-xs: 4px;
   --bn-chart-spacing-sm: 8px;
@@ -16,111 +16,229 @@
   --bn-chart-spacing-lg: 16px;
   --bn-chart-font-size-sm: 0.75rem;
   --bn-chart-font-size-base: 0.875rem;
-  --bn-chart-canvas-min-height: 240px;
+  --bn-chart-canvas-min-height: 300px;
+  --bn-chart-table-header-bg: #daf1f5;
+  --bn-chart-table-row-even: #f3f4f6;
+  --bn-chart-table-row-odd: #f9f7f2;
+  --bn-chart-float-btn-size: 36px;
+  --bn-chart-float-btn-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .bn-chart-root {
-  display: flex;
-  flex-direction: column;
+  position: relative;
   border: 1px solid var(--bn-chart-border);
   border-radius: var(--bn-chart-radius);
+  padding: var(--bn-chart-spacing-lg);
   background: var(--bn-chart-bg);
-  overflow: hidden;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .bn-chart-canvas-wrapper {
   position: relative;
-  min-height: var(--bn-chart-canvas-min-height);
-  padding: var(--bn-chart-spacing-md);
+  height: var(--bn-chart-canvas-min-height);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bn-chart-canvas-wrapper canvas {
+  max-width: 100%;
+  max-height: 100%;
   display: block;
-  width: 100% !important;
 }
 
 .bn-chart-fallback {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--bn-chart-canvas-min-height);
+  width: 100%;
+  height: 100%;
   color: var(--bn-chart-text-muted);
-  font-size: var(--bn-chart-font-size-sm);
+  font-size: var(--bn-chart-font-size-base);
 }
 
-.bn-chart-menu {
+.bn-chart-menu-trigger-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.bn-chart-menu-trigger {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--bn-chart-spacing-xs);
-  padding: var(--bn-chart-spacing-sm) var(--bn-chart-spacing-md);
-  border-bottom: 1px solid var(--bn-chart-border);
-  background: var(--bn-chart-bg);
-}
-
-.bn-chart-menu-group {
-  display: flex;
-  gap: var(--bn-chart-spacing-xs);
-  align-items: center;
-}
-
-.bn-chart-menu-group + .bn-chart-menu-group::before {
-  content: "";
-  display: block;
-  width: 1px;
-  height: 1.25rem;
-  background: var(--bn-chart-border);
-  margin: 0 var(--bn-chart-spacing-xs);
-}
-
-.bn-chart-menu-btn {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--bn-chart-spacing-xs);
-  padding: var(--bn-chart-spacing-xs) var(--bn-chart-spacing-sm);
-  border: 1px solid transparent;
+  width: var(--bn-chart-float-btn-size);
+  height: var(--bn-chart-float-btn-size);
+  padding: 0;
+  border: none;
   border-radius: var(--bn-chart-radius-sm);
-  background: transparent;
-  color: var(--bn-chart-text);
-  font-size: var(--bn-chart-font-size-sm);
-  line-height: 1.25;
+  background: var(--bn-chart-bg);
+  box-shadow: var(--bn-chart-float-btn-shadow);
   cursor: pointer;
-  transition: background 0.1s, border-color 0.1s, color 0.1s;
-  white-space: nowrap;
-  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+  color: #555;
+  font-size: 1.1em;
 }
 
-.bn-chart-menu-btn:hover {
-  background: var(--bn-chart-accent-subtle);
-  border-color: var(--bn-chart-focus);
+.bn-chart-root:hover .bn-chart-menu-trigger {
+  opacity: 1;
+}
+
+.bn-chart-menu-trigger:hover {
   color: var(--bn-chart-accent);
 }
 
-.bn-chart-menu-btn:focus-visible {
+.bn-chart-menu-trigger:focus-visible {
   outline: 2px solid var(--bn-chart-focus);
   outline-offset: 1px;
+  opacity: 1;
 }
 
-.bn-chart-menu-btn--active {
-  background: var(--bn-chart-accent-subtle);
-  border-color: var(--bn-chart-accent);
-  color: var(--bn-chart-accent);
+.bn-chart-menu-trigger-icon {
+  pointer-events: none;
 }
 
-.bn-chart-table-wrapper {
-  width: 100%;
-  overflow-x: auto;
+.bn-chart-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 160px;
+  background: var(--bn-chart-bg);
+  border: 1px solid var(--bn-chart-border);
+  border-radius: var(--bn-chart-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.bn-chart-table-heading {
-  margin: 0 0 var(--bn-chart-spacing-sm) 0;
-  padding: var(--bn-chart-spacing-sm) var(--bn-chart-spacing-md);
+.bn-chart-dropdown-section-title {
+  padding: 6px 12px 2px;
   font-size: var(--bn-chart-font-size-sm);
   font-weight: 600;
   color: var(--bn-chart-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.bn-chart-dropdown-divider {
+  height: 1px;
+  background: var(--bn-chart-border);
+  margin: 4px 0;
+}
+
+.bn-chart-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
+  color: var(--bn-chart-text);
+  font-size: var(--bn-chart-font-size-base);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.bn-chart-dropdown-item:hover {
+  background: var(--bn-chart-accent-subtle);
+}
+
+.bn-chart-dropdown-item--active {
+  color: var(--bn-chart-accent);
+  font-weight: 600;
+}
+
+.bn-chart-dropdown-item:focus-visible {
+  outline: 2px solid var(--bn-chart-focus);
+  outline-offset: -2px;
+}
+
+.bn-chart-dropdown-item-icon {
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+
+.bn-chart-float-btn {
+  position: absolute;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--bn-chart-float-btn-size);
+  height: var(--bn-chart-float-btn-size);
+  padding: 0;
+  border: none;
+  border-radius: var(--bn-chart-radius-sm);
+  background: var(--bn-chart-bg);
+  box-shadow: var(--bn-chart-float-btn-shadow);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+  color: #555;
+  font-size: 1.1em;
+  z-index: 10;
+}
+
+.bn-chart-root:hover .bn-chart-float-btn {
+  opacity: 1;
+}
+
+.bn-chart-float-btn:hover {
+  color: var(--bn-chart-accent);
+}
+
+.bn-chart-float-btn:focus-visible {
+  outline: 2px solid var(--bn-chart-focus);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
+.bn-chart-float-btn--back {
+  bottom: -5px;
+}
+
+.bn-chart-float-btn--remove-row {
+  bottom: 34px;
+}
+
+.bn-chart-float-btn--add-row {
+  bottom: 73px;
+}
+
+.bn-chart-float-icon {
+  pointer-events: none;
+}
+
+.bn-chart-table-container {
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bn-chart-table-heading {
+  margin: 0;
+  padding: var(--bn-chart-spacing-sm) var(--bn-chart-spacing-md);
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: center;
+  background: var(--bn-chart-table-header-bg);
+  color: var(--bn-chart-text);
+}
+
+.bn-chart-table-wrapper {
+  max-height: 240px;
+  overflow-y: auto;
 }
 
 .bn-chart-table {
@@ -138,9 +256,19 @@
 }
 
 .bn-chart-table-th {
-  background: var(--bn-chart-accent-subtle);
-  font-weight: 600;
-  font-size: var(--bn-chart-font-size-sm);
+  background: var(--bn-chart-table-header-bg);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.bn-chart-table tr:nth-child(even) .bn-chart-table-td {
+  background: var(--bn-chart-table-row-even);
+}
+
+.bn-chart-table tr:nth-child(odd) .bn-chart-table-td {
+  background: var(--bn-chart-table-row-odd);
 }
 
 .bn-chart-table-input {
@@ -164,13 +292,14 @@
 }
 
 .bn-chart-table-input--header {
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
 }
 
 .bn-chart-csv {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--bn-chart-spacing-sm);
   padding: var(--bn-chart-spacing-md);
 }
@@ -180,26 +309,49 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--bn-chart-spacing-xs);
+  gap: var(--bn-chart-spacing-sm);
   padding: var(--bn-chart-spacing-lg);
-  border: 2px dashed var(--bn-chart-border);
-  border-radius: var(--bn-chart-radius);
+  background: linear-gradient(135deg, #f5f7fa, #e8f4f8);
+  border: 2px dashed #c0e5e0;
+  border-radius: 16px;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
-  min-height: 120px;
+  min-height: 200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .bn-chart-csv-dropzone:hover,
 .bn-chart-csv-dropzone--active {
   border-color: var(--bn-chart-accent);
-  background: var(--bn-chart-accent-subtle);
+  background: linear-gradient(135deg, #e8f4fa, #d8eefc);
+}
+
+.bn-chart-csv-icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a0d8d3, #80c8ff);
+  flex-shrink: 0;
+}
+
+.bn-chart-csv-upload-icon {
+  font-size: 2.5rem;
+  color: #ffffff;
+  pointer-events: none;
 }
 
 .bn-chart-csv-label {
   margin: 0;
-  color: var(--bn-chart-text);
+  background: linear-gradient(to right, #007fff, #009985);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: var(--bn-chart-font-size-base);
-  font-weight: 500;
+  font-weight: 600;
   pointer-events: none;
 }
 
@@ -217,56 +369,4 @@
   background: var(--bn-chart-danger-subtle);
   color: var(--bn-chart-danger);
   font-size: var(--bn-chart-font-size-sm);
-}
-
-.bn-chart-csv-paste {
-  display: flex;
-  flex-direction: column;
-  gap: var(--bn-chart-spacing-xs);
-}
-
-.bn-chart-csv-paste-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: var(--bn-chart-spacing-sm);
-  border: 1px solid var(--bn-chart-border);
-  border-radius: var(--bn-chart-radius-sm);
-  background: transparent;
-  color: var(--bn-chart-text);
-  font-size: var(--bn-chart-font-size-sm);
-  font-family: monospace;
-  resize: vertical;
-  outline: none;
-}
-
-.bn-chart-csv-paste-input:focus {
-  border-color: var(--bn-chart-focus);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--bn-chart-focus) 30%, transparent);
-}
-
-.bn-chart-csv-paste-btn {
-  align-self: flex-end;
-  padding: var(--bn-chart-spacing-xs) var(--bn-chart-spacing-md);
-  border: 1px solid var(--bn-chart-accent);
-  border-radius: var(--bn-chart-radius-sm);
-  background: var(--bn-chart-accent);
-  color: #ffffff;
-  font-size: var(--bn-chart-font-size-sm);
-  font-family: inherit;
-  cursor: pointer;
-  transition: opacity 0.1s;
-}
-
-.bn-chart-csv-paste-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.bn-chart-csv-paste-btn:not(:disabled):hover {
-  opacity: 0.85;
-}
-
-.bn-chart-csv-paste-btn:focus-visible {
-  outline: 2px solid var(--bn-chart-focus);
-  outline-offset: 2px;
 }

@@ -35,8 +35,9 @@ export const ChartTable: React.FC<ChartTableProps> = ({ data, onChange }) => {
   };
 
   return (
-    <div className="bn-chart-table-wrapper" contentEditable={false}>
+    <div className="bn-chart-table-container" contentEditable={false}>
       <p className="bn-chart-table-heading">Chart Data</p>
+      <div className="bn-chart-table-wrapper">
       <table className="bn-chart-table">
         <thead>
           <tr>
@@ -78,6 +79,7 @@ export const ChartTable: React.FC<ChartTableProps> = ({ data, onChange }) => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

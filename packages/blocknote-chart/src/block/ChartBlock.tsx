@@ -31,7 +31,7 @@ export function createChartBlock(config?: ChartBlockConfig) {
         </ChartBlockConfigContext.Provider>
       ),
     }
-  );
+  )();
 }
 
 export const ChartBlock = createChartBlock();

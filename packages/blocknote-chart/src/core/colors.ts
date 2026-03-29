@@ -1,7 +1,7 @@
 import type { ChartBlockConfig, ChartData } from "./types";
 
 export const defaultColorPalette: string[] = [
-  "#3b82f6",
+  "#b39ddb",
   "#ef4444",
   "#10b981",
   "#f59e0b",

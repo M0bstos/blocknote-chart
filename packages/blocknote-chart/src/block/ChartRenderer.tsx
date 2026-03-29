@@ -20,6 +20,7 @@ import { useChartBlockConfig } from "./context";
 import { ChartMenu } from "./ChartMenu";
 import { ChartTable } from "./ChartTable";
 import { CsvImport } from "./CsvImport";
+import { AddRowIcon, RemoveRowIcon, BackIcon } from "./icons";
 import type { ChartData, ChartViewMode } from "../core/types";
 
 ChartJS.register(
@@ -169,15 +170,31 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ block, editor }) =
       />
       <div className="bn-chart-canvas-wrapper">
         {viewMode === "table" && (
-          <ActiveChartTable data={parsedData} onChange={handleDataChange} />
+          <>
+            <button type="button" aria-label="Add row" className="bn-chart-float-btn bn-chart-float-btn--add-row" onClick={addRow}>
+              <AddRowIcon className="bn-chart-float-icon" />
+            </button>
+            <button type="button" aria-label="Remove row" className="bn-chart-float-btn bn-chart-float-btn--remove-row" onClick={removeRow}>
+              <RemoveRowIcon className="bn-chart-float-icon" />
+            </button>
+            <button type="button" aria-label="Back to chart" className="bn-chart-float-btn bn-chart-float-btn--back" onClick={() => setViewMode("chart")}>
+              <BackIcon className="bn-chart-float-icon" />
+            </button>
+            <ActiveChartTable data={parsedData} onChange={handleDataChange} />
+          </>
         )}
         {viewMode === "csv" && (
-          <ActiveCsvImport
-            onImport={(next) => {
-              handleDataChange(next);
-              setViewMode("chart");
-            }}
-          />
+          <>
+            <button type="button" aria-label="Back to chart" className="bn-chart-float-btn bn-chart-float-btn--back" onClick={() => setViewMode("chart")}>
+              <BackIcon className="bn-chart-float-icon" />
+            </button>
+            <ActiveCsvImport
+              onImport={(next) => {
+                handleDataChange(next);
+                setViewMode("chart");
+              }}
+            />
+          </>
         )}
         {viewMode === "chart" &&
           (chartError ? (
