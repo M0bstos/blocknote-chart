@@ -1,0 +1,45 @@
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.demo-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.demo-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.demo-hint {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.demo-hint kbd {
+  background: #e2e8f0;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.demo-editor {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  min-height: 400px;
+  background: #fff;
+  overflow: hidden;
+}
