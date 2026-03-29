@@ -1,0 +1,210 @@
+:root {
+  --bn-chart-bg: #ffffff;
+  --bn-chart-border: #e2e8f0;
+  --bn-chart-accent: #3b82f6;
+  --bn-chart-accent-subtle: #eff6ff;
+  --bn-chart-focus: #93c5fd;
+  --bn-chart-text: #1e293b;
+  --bn-chart-text-muted: #64748b;
+  --bn-chart-danger: #ef4444;
+  --bn-chart-danger-subtle: #fef2f2;
+  --bn-chart-radius: 6px;
+  --bn-chart-radius-sm: 4px;
+  --bn-chart-spacing-xs: 4px;
+  --bn-chart-spacing-sm: 8px;
+  --bn-chart-spacing-md: 12px;
+  --bn-chart-spacing-lg: 16px;
+  --bn-chart-font-size-sm: 0.75rem;
+  --bn-chart-font-size-base: 0.875rem;
+  --bn-chart-canvas-min-height: 240px;
+}
+
+.bn-chart-root {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--bn-chart-border);
+  border-radius: var(--bn-chart-radius);
+  background: var(--bn-chart-bg);
+  overflow: hidden;
+  width: 100%;
+}
+
+.bn-chart-canvas-wrapper {
+  position: relative;
+  min-height: var(--bn-chart-canvas-min-height);
+  padding: var(--bn-chart-spacing-md);
+}
+
+.bn-chart-canvas-wrapper canvas {
+  display: block;
+  width: 100% !important;
+}
+
+.bn-chart-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--bn-chart-canvas-min-height);
+  color: var(--bn-chart-text-muted);
+  font-size: var(--bn-chart-font-size-sm);
+}
+
+.bn-chart-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bn-chart-spacing-xs);
+  padding: var(--bn-chart-spacing-sm) var(--bn-chart-spacing-md);
+  border-bottom: 1px solid var(--bn-chart-border);
+  background: var(--bn-chart-bg);
+}
+
+.bn-chart-menu-group {
+  display: flex;
+  gap: var(--bn-chart-spacing-xs);
+  align-items: center;
+}
+
+.bn-chart-menu-group + .bn-chart-menu-group::before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 1.25rem;
+  background: var(--bn-chart-border);
+  margin: 0 var(--bn-chart-spacing-xs);
+}
+
+.bn-chart-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bn-chart-spacing-xs);
+  padding: var(--bn-chart-spacing-xs) var(--bn-chart-spacing-sm);
+  border: 1px solid transparent;
+  border-radius: var(--bn-chart-radius-sm);
+  background: transparent;
+  color: var(--bn-chart-text);
+  font-size: var(--bn-chart-font-size-sm);
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.bn-chart-menu-btn:hover {
+  background: var(--bn-chart-accent-subtle);
+  border-color: var(--bn-chart-focus);
+  color: var(--bn-chart-accent);
+}
+
+.bn-chart-menu-btn:focus-visible {
+  outline: 2px solid var(--bn-chart-focus);
+  outline-offset: 1px;
+}
+
+.bn-chart-menu-btn--active {
+  background: var(--bn-chart-accent-subtle);
+  border-color: var(--bn-chart-accent);
+  color: var(--bn-chart-accent);
+}
+
+.bn-chart-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.bn-chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--bn-chart-font-size-sm);
+  color: var(--bn-chart-text);
+}
+
+.bn-chart-table-th,
+.bn-chart-table-td {
+  padding: 0;
+  border: 1px solid var(--bn-chart-border);
+  vertical-align: middle;
+}
+
+.bn-chart-table-th {
+  background: var(--bn-chart-accent-subtle);
+  font-weight: 600;
+  font-size: var(--bn-chart-font-size-sm);
+}
+
+.bn-chart-table-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--bn-chart-spacing-xs) var(--bn-chart-spacing-sm);
+  border: none;
+  background: transparent;
+  color: var(--bn-chart-text);
+  font-size: var(--bn-chart-font-size-sm);
+  font-family: inherit;
+  line-height: 1.5;
+  min-width: 80px;
+  outline: none;
+}
+
+.bn-chart-table-input:focus {
+  background: var(--bn-chart-accent-subtle);
+  box-shadow: inset 0 0 0 1px var(--bn-chart-focus);
+}
+
+.bn-chart-table-input--header {
+  font-weight: 600;
+  text-align: center;
+}
+
+.bn-chart-csv {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bn-chart-spacing-sm);
+  padding: var(--bn-chart-spacing-md);
+}
+
+.bn-chart-csv-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bn-chart-spacing-xs);
+  padding: var(--bn-chart-spacing-lg);
+  border: 2px dashed var(--bn-chart-border);
+  border-radius: var(--bn-chart-radius);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-height: 120px;
+}
+
+.bn-chart-csv-dropzone:hover,
+.bn-chart-csv-dropzone--active {
+  border-color: var(--bn-chart-accent);
+  background: var(--bn-chart-accent-subtle);
+}
+
+.bn-chart-csv-label {
+  margin: 0;
+  color: var(--bn-chart-text);
+  font-size: var(--bn-chart-font-size-base);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.bn-chart-csv-hint {
+  margin: 0;
+  color: var(--bn-chart-text-muted);
+  font-size: var(--bn-chart-font-size-sm);
+  pointer-events: none;
+}
+
+.bn-chart-csv-error {
+  margin: 0;
+  padding: var(--bn-chart-spacing-xs) var(--bn-chart-spacing-sm);
+  border-radius: var(--bn-chart-radius-sm);
+  background: var(--bn-chart-danger-subtle);
+  color: var(--bn-chart-danger);
+  font-size: var(--bn-chart-font-size-sm);
+}

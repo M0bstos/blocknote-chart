@@ -1,5 +1,6 @@
 import React from "react";
 import { useChartBlockConfig } from "./context";
+import { defaultIcons } from "./icons";
 import type { ChartMenuProps, ChartType } from "../core/types";
 
 const CHART_TYPES: { value: ChartType; label: string }[] = [
@@ -19,7 +20,7 @@ export const ChartMenu: React.FC<ChartMenuProps> = ({
   onRemoveRow,
 }) => {
   const config = useChartBlockConfig();
-  const icons = config?.icons ?? {};
+  const icons = { ...defaultIcons, ...(config?.icons ?? {}) };
 
   return (
     <div className="bn-chart-menu" contentEditable={false}>
