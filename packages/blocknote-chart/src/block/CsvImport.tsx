@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { MdUploadFile } from "react-icons/md";
 import { useChartBlockConfig } from "./context";
 import { parseCsvToChartData } from "../core/csv";
 import type { CsvImportProps } from "../core/types";
@@ -13,7 +14,6 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [pasteValue, setPasteValue] = useState("");
 
   const processFile = (file: File) => {
     setError(null);
@@ -54,17 +54,6 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
     if (file) processFile(file);
   };
 
-  const handlePasteImport = () => {
-    const raw = pasteValue.trim();
-    if (!raw) return;
-    setError(null);
-    try {
-      onImport(csvParser(raw));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to parse CSV.");
-    }
-  };
-
   return (
     <div className="bn-chart-csv" contentEditable={false}>
       <div
@@ -82,29 +71,15 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        <p className="bn-chart-csv-label">Select or drag &amp; drop a .csv file</p>
+        <div className="bn-chart-csv-icon-circle">
+          <MdUploadFile className="bn-chart-csv-upload-icon" />
+        </div>
+        <p className="bn-chart-csv-label">Select or drag &amp; drop CSV file</p>
         <p className="bn-chart-csv-hint">
-          Max size: {(maxBytes / (1024 * 1024)).toFixed(0)} MB
+          Supports .csv files up to {(maxBytes / (1024 * 1024)).toFixed(0)} MB
         </p>
       </div>
       {error && <p className="bn-chart-csv-error">{error}</p>}
-      <div className="bn-chart-csv-paste">
-        <textarea
-          className="bn-chart-csv-paste-input"
-          placeholder="Or paste CSV text here…"
-          value={pasteValue}
-          onChange={(e) => setPasteValue(e.target.value)}
-          rows={4}
-        />
-        <button
-          type="button"
-          className="bn-chart-csv-paste-btn"
-          disabled={!pasteValue.trim()}
-          onClick={handlePasteImport}
-        >
-          Import
-        </button>
-      </div>
     </div>
   );
 };
