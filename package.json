@@ -1,6 +1,11 @@
 {
   "name": "blocknote-chart-workspace",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/M0bstos/blocknote-chart"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"

@@ -1,6 +1,12 @@
 {
   "name": "@m0bstos/blocknote-chart",
   "version": "0.1.0",
+  "license": "MIT",
+  "author": "Harsh Nanda (https://github.com/M0bstos)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/M0bstos/blocknote-chart"
+  },
   "private": false,
   "type": "module",
   "files": ["dist", "style.css"],
@@ -25,7 +31,7 @@
   "peerDependencies": {
     "@blocknote/core": "^0.47.1",
     "@blocknote/react": "^0.47.1",
-    "@floating-ui/react": "^0.27.0",
+    "@floating-ui/react": "^0.27.18",
     "chart.js": "^4.5.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
