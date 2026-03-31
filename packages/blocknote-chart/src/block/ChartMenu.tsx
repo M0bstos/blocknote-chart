@@ -1,4 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  size,
+  autoUpdate,
+  useClick,
+  useDismiss,
+  useInteractions,
+  FloatingPortal,
+} from "@floating-ui/react";
 import { useChartBlockConfig } from "./context";
 import { defaultIcons, EditIcon } from "./icons";
 import type { ChartMenuProps, ChartType } from "../core/types";
@@ -19,39 +31,50 @@ export const ChartMenu: React.FC<ChartMenuProps> = ({
   const config = useChartBlockConfig();
   const icons = { ...defaultIcons, ...(config?.icons ?? {}) };
   const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    const handleClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("keydown", handleKey);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [open]);
+  const { refs, floatingStyles, context } = useFloating({
+    open,
+    onOpenChange: setOpen,
+    placement: "bottom-end",
+    middleware: [
+      offset(4),
+      flip({ padding: 10 }),
+      shift({ padding: 10 }),
+      size({
+        apply({ availableHeight, elements }) {
+          elements.floating.style.maxHeight = `${availableHeight - 10}px`;
+        },
+        padding: 10,
+      }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
+  const click = useClick(context);
+  const dismiss = useDismiss(context);
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
   return (
-    <div className="bn-chart-menu-trigger-wrapper" ref={containerRef} contentEditable={false}>
+    <div className="bn-chart-menu-trigger-wrapper" contentEditable={false}>
       <button
+        ref={refs.setReference}
         type="button"
         className="bn-chart-menu-trigger"
         aria-label="Chart options"
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        {...getReferenceProps()}
       >
         <EditIcon className="bn-chart-menu-trigger-icon" />
       </button>
       {open && (
-        <div className="bn-chart-dropdown" role="menu">
+        <FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            className="bn-chart-dropdown"
+            role="menu"
+            style={floatingStyles}
+            {...getFloatingProps()}
+          >
           <div className="bn-chart-dropdown-section-title">Chart Type</div>
           {CHART_TYPES.map((ct) => {
             const Icon = icons[ct.iconKey];
@@ -109,6 +132,7 @@ export const ChartMenu: React.FC<ChartMenuProps> = ({
             Import CSV
           </button>
         </div>
+        </FloatingPortal>
       )}
     </div>
   );

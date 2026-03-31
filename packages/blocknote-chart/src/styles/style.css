@@ -103,18 +103,16 @@
 }
 
 .bn-chart-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
   min-width: 160px;
   background: var(--bn-chart-bg);
   border: 1px solid var(--bn-chart-border);
   border-radius: var(--bn-chart-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  z-index: 100;
+  z-index: 10000;
   padding: 4px 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .bn-chart-dropdown-section-title {
