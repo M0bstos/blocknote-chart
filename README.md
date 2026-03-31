@@ -4,6 +4,8 @@ Drop-in chart block for [BlockNote](https://www.blocknotejs.org/) editors. Suppo
 
 Built on [Chart.js](https://www.chartjs.org/).
 
+**[Live demo](https://blocknote-chart-demo.vercel.app/)**
+
 ## Install
 
 ```bash
