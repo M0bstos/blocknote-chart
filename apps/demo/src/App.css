@@ -178,3 +178,53 @@
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 48px 24px;
+    gap: 40px;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+  }
+
+  .hero-desc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding: 36px 16px;
+    gap: 32px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-install {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .hero-install-cmd {
+    font-size: 0.75rem;
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .hero-install-copy {
+    border-left: none;
+    padding-left: 0;
+    width: 100%;
+    text-align: right;
+  }
+
+  .editor-body {
+    max-height: 400px;
+  }
+}
