@@ -21,6 +21,9 @@ const CHART_TYPES: { value: ChartType; label: string; iconKey: keyof typeof defa
   { value: "pie", label: "Pie", iconKey: "pieChart" },
 ];
 
+const cx = (...classes: Array<string | undefined | false>) =>
+  classes.filter(Boolean).join(" ");
+
 export const ChartMenu: React.FC<ChartMenuProps> = ({
   chartType,
   onChartTypeChange,
@@ -55,7 +58,10 @@ export const ChartMenu: React.FC<ChartMenuProps> = ({
   const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
   return (
-    <div className="bn-chart-menu-trigger-wrapper" contentEditable={false}>
+    <div
+      className={cx("bn-chart-menu-trigger-wrapper", config?.classNames?.menu)}
+      contentEditable={false}
+    >
       <button
         ref={refs.setReference}
         type="button"

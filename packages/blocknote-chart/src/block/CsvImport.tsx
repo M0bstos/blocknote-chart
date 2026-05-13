@@ -6,6 +6,9 @@ import type { CsvImportProps } from "../core/types";
 
 const DEFAULT_MAX_BYTES = 10 * 1024 * 1024;
 
+const cx = (...classes: Array<string | undefined | false>) =>
+  classes.filter(Boolean).join(" ");
+
 export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
   const config = useChartBlockConfig();
   const maxBytes = config?.csv?.maxFileSizeBytes ?? DEFAULT_MAX_BYTES;
@@ -55,9 +58,16 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
   };
 
   return (
-    <div className="bn-chart-csv" contentEditable={false}>
-      <div
-        className={`bn-chart-csv-dropzone${isDragging ? " bn-chart-csv-dropzone--active" : ""}`}
+    <div
+      className={cx("bn-chart-csv", config?.classNames?.csvImport)}
+      contentEditable={false}
+    >
+      <button
+        type="button"
+        className={cx(
+          "bn-chart-csv-dropzone",
+          isDragging && "bn-chart-csv-dropzone--active",
+        )}
         onClick={() => fileInputRef.current?.click()}
         onDragEnter={(e) => { e.preventDefault(); setIsDragging(true); }}
         onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
@@ -78,7 +88,7 @@ export const CsvImport: React.FC<CsvImportProps> = ({ onImport }) => {
         <p className="bn-chart-csv-hint">
           Supports .csv files up to {(maxBytes / (1024 * 1024)).toFixed(0)} MB
         </p>
-      </div>
+      </button>
       {error && <p className="bn-chart-csv-error">{error}</p>}
     </div>
   );

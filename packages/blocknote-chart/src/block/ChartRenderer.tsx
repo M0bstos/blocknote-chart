@@ -38,7 +38,10 @@ ChartJS.register(
   ArcElement,
 );
 
-interface ChartRendererProps {
+const cx = (...classes: Array<string | undefined | false>) =>
+  classes.filter(Boolean).join(" ");
+
+interface InternalChartRendererProps {
   block: {
     id: string;
     props: {
@@ -52,7 +55,7 @@ interface ChartRendererProps {
   editor: any;
 }
 
-export const ChartRenderer: React.FC<ChartRendererProps> = ({ block, editor }) => {
+export const ChartRenderer: React.FC<InternalChartRendererProps> = ({ block, editor }) => {
   const config = useChartBlockConfig();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<ChartJS | null>(null);
@@ -150,9 +153,13 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ block, editor }) =
   const ActiveChartMenu = config?.components?.ChartMenu ?? ChartMenu;
   const ActiveChartTable = config?.components?.ChartTable ?? ChartTable;
   const ActiveCsvImport = config?.components?.CsvImport ?? CsvImport;
+  const ActiveChartRenderer = config?.components?.ChartRenderer;
 
   return (
-    <div className="bn-chart-root" contentEditable={false}>
+    <div
+      className={cx("bn-chart-root", config?.classNames?.root)}
+      contentEditable={false}
+    >
       <ActiveChartMenu
         chartType={block.props.chartType}
         viewMode={viewMode}
@@ -168,7 +175,12 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ block, editor }) =
         onAddRow={addRow}
         onRemoveRow={removeRow}
       />
-      <div className="bn-chart-canvas-wrapper">
+      <div
+        className={cx(
+          "bn-chart-canvas-wrapper",
+          config?.classNames?.canvasWrapper,
+        )}
+      >
         {viewMode === "table" && (
           <>
             <button type="button" aria-label="Add row" className="bn-chart-float-btn bn-chart-float-btn--add-row" onClick={addRow}>
@@ -197,7 +209,12 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ block, editor }) =
           </>
         )}
         {viewMode === "chart" &&
-          (chartError ? (
+          (ActiveChartRenderer ? (
+            <ActiveChartRenderer
+              chartType={block.props.chartType}
+              chartData={coloredData}
+            />
+          ) : chartError ? (
             <div className="bn-chart-fallback">Chart could not be rendered.</div>
           ) : (
             <canvas ref={canvasRef} />

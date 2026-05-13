@@ -1,7 +1,13 @@
 import React from "react";
 import type { ChartTableProps, ChartData } from "../core/types";
+import { useChartBlockConfig } from "./context";
+
+const cx = (...classes: Array<string | undefined | false>) =>
+  classes.filter(Boolean).join(" ");
 
 export const ChartTable: React.FC<ChartTableProps> = ({ data, onChange }) => {
+  const config = useChartBlockConfig();
+
   const updateDatasetName = (dsIndex: number, value: string) => {
     const next: ChartData = {
       labels: [...data.labels],
@@ -35,7 +41,10 @@ export const ChartTable: React.FC<ChartTableProps> = ({ data, onChange }) => {
   };
 
   return (
-    <div className="bn-chart-table-container" contentEditable={false}>
+    <div
+      className={cx("bn-chart-table-container", config?.classNames?.table)}
+      contentEditable={false}
+    >
       <p className="bn-chart-table-heading">Chart Data</p>
       <div className="bn-chart-table-wrapper">
       <table className="bn-chart-table">

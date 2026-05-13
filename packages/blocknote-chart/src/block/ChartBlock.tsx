@@ -6,22 +6,24 @@ import type { ChartBlockConfig, ChartType } from "../core/types";
 import { ChartBlockConfigContext } from "./context";
 import { ChartRenderer } from "./ChartRenderer";
 
-const chartPropSchema = {
-  textColor: defaultProps.textColor,
-  backgroundColor: defaultProps.backgroundColor,
-  chartType: {
-    default: "bar" as ChartType,
-  },
-  chartData: {
-    default: JSON.stringify(defaultChartData),
-  },
+const createChartPropSchema = (config?: ChartBlockConfig) => {
+  return {
+    textColor: defaultProps.textColor,
+    backgroundColor: defaultProps.backgroundColor,
+    chartType: {
+      default: (config?.chart?.defaultType ?? "bar") as ChartType,
+    },
+    chartData: {
+      default: JSON.stringify(config?.chart?.defaultData ?? defaultChartData),
+    },
+  };
 };
 
 export function createChartBlock(config?: ChartBlockConfig) {
   return createReactBlockSpec(
     {
       type: "chart",
-      propSchema: chartPropSchema,
+      propSchema: createChartPropSchema(config),
       content: "none",
     },
     {
