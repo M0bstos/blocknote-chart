@@ -19,7 +19,7 @@ const schema = BlockNoteSchema.create({
   },
 });
 
-const initialContent: any[] = [
+const initialContent = [
   {
     type: "heading",
     props: { level: 2 },

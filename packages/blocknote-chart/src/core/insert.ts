@@ -1,10 +1,20 @@
-import type { BlockNoteEditor } from "@blocknote/core";
+import type {
+  BlockNoteEditor,
+  BlockSchema,
+  InlineContentSchema,
+  PartialBlock,
+  StyleSchema,
+} from "@blocknote/core";
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import type { DefaultSuggestionItem } from "@blocknote/core/extensions";
 import { defaultChartData } from "./data";
 
-export const insertChart = (
-  editor: BlockNoteEditor<any, any, any>
+export const insertChart = <
+  BSchema extends BlockSchema,
+  ISchema extends InlineContentSchema,
+  SSchema extends StyleSchema,
+>(
+  editor: BlockNoteEditor<BSchema, ISchema, SSchema>
 ): Omit<DefaultSuggestionItem, "key"> & { key: string } => {
   return {
     key: "chart",
@@ -18,7 +28,7 @@ export const insertChart = (
           chartType: "bar",
           chartData: JSON.stringify(defaultChartData),
         },
-      });
+      } as PartialBlock<BSchema, ISchema, SSchema>);
     },
   };
 };

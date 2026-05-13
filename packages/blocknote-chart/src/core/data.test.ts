@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { defaultChartData, parseChartData } from "./data";
+import type { ChartData } from "./types";
 
 describe("defaultChartData", () => {
   it("has labels and at least one dataset", () => {
@@ -49,11 +50,13 @@ describe("parseChartData", () => {
   });
 
   it("returns null when labels are not strings", () => {
-    expect(parseChartData({ labels: [1, 2], datasets: [] } as any)).toBeNull();
+    const bad = { labels: [1, 2], datasets: [] } as unknown as ChartData;
+    expect(parseChartData(bad)).toBeNull();
   });
 
   it("returns null when datasets is not an array", () => {
-    expect(parseChartData({ labels: ["A"], datasets: "nope" } as any)).toBeNull();
+    const bad = { labels: ["A"], datasets: "nope" } as unknown as ChartData;
+    expect(parseChartData(bad)).toBeNull();
   });
 
   it("returns null when dataset.data contains non-finite numbers", () => {
@@ -68,7 +71,7 @@ describe("parseChartData", () => {
 
   it("returns null when dataset.label is not a string", () => {
     const bad = { labels: ["A"], datasets: [{ label: 42, data: [1] }] };
-    expect(parseChartData(bad as any)).toBeNull();
+    expect(parseChartData(bad as unknown as ChartData)).toBeNull();
   });
 
   it("returns null when backgroundColor is not a string", () => {
@@ -76,7 +79,7 @@ describe("parseChartData", () => {
       labels: ["A"],
       datasets: [{ label: "D", data: [1], backgroundColor: 123 }],
     };
-    expect(parseChartData(bad as any)).toBeNull();
+    expect(parseChartData(bad as unknown as ChartData)).toBeNull();
   });
 
   it("returns null for a primitive string that is not JSON", () => {
