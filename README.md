@@ -78,6 +78,16 @@ createChartBlock({
 
 See [`ChartBlockConfig`](packages/blocknote-chart/src/core/types.ts) for the full type.
 
+## SSR / Next.js
+
+Chart rendering depends on the browser canvas API, so mount editors that include this block on the client. In Next.js, dynamically import the editor component with SSR disabled:
+
+```tsx
+import dynamic from "next/dynamic";
+
+const Editor = dynamic(() => import("./Editor"), { ssr: false });
+```
+
 ## What's in the box
 
 | Feature | Details |
