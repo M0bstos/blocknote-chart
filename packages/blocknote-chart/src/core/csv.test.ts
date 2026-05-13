@@ -37,6 +37,20 @@ describe("parseCsvToChartData", () => {
     expect(result.datasets[0].data).toEqual([42, 7]);
   });
 
+  it("handles quoted labels and headers containing commas", () => {
+    const csv = "\"Month, Year\",\"Revenue, Net\"\n\"Jan, 2026\",100";
+    const result = parseCsvToChartData(csv);
+    expect(result.labels).toEqual(["Jan, 2026"]);
+    expect(result.datasets[0].label).toBe("Revenue, Net");
+    expect(result.datasets[0].data).toEqual([100]);
+  });
+
+  it("handles escaped quotes inside quoted cells", () => {
+    const csv = "Label,Val\n\"Phase \"\"A\"\"\",10";
+    const result = parseCsvToChartData(csv);
+    expect(result.labels).toEqual(["Phase \"A\""]);
+  });
+
   it("ignores empty lines", () => {
     const csv = "Label,Val\n\nA,1\n\nB,2\n";
     const result = parseCsvToChartData(csv);
@@ -102,6 +116,12 @@ describe("parseCsvToChartData", () => {
   it("throws on Infinity", () => {
     expect(() => parseCsvToChartData("Label,Val\nA,Infinity")).toThrow(
       /Invalid number at row 2, column 2/,
+    );
+  });
+
+  it("throws on unterminated quoted values", () => {
+    expect(() => parseCsvToChartData("Label,Val\n\"A,1")).toThrow(
+      "CSV contains an unterminated quoted value.",
     );
   });
 });

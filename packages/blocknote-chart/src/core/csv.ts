@@ -1,16 +1,90 @@
 import type { ChartData, ChartDataset } from "./types";
 
+interface CsvRow {
+  cells: string[];
+  rowNumber: number;
+}
+
+const parseCsvRows = (rawCsv: string): CsvRow[] => {
+  const rows: CsvRow[] = [];
+  let row: string[] = [];
+  let cell = "";
+  let inQuotes = false;
+  let rowNumber = 1;
+
+  const pushCell = () => {
+    row.push(cell.trim());
+    cell = "";
+  };
+
+  const pushRow = () => {
+    pushCell();
+    if (row.some((value) => value.length > 0)) {
+      rows.push({ cells: row, rowNumber });
+    }
+    row = [];
+    rowNumber += 1;
+  };
+
+  for (let i = 0; i < rawCsv.length; i += 1) {
+    const char = rawCsv[i];
+
+    if (inQuotes) {
+      if (char === "\"") {
+        if (rawCsv[i + 1] === "\"") {
+          cell += "\"";
+          i += 1;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        cell += char;
+      }
+      continue;
+    }
+
+    if (char === "\"") {
+      if (cell.trim().length === 0) {
+        cell = "";
+        inQuotes = true;
+      } else {
+        cell += char;
+      }
+      continue;
+    }
+
+    if (char === ",") {
+      pushCell();
+      continue;
+    }
+
+    if (char === "\n" || char === "\r") {
+      pushRow();
+      if (char === "\r" && rawCsv[i + 1] === "\n") {
+        i += 1;
+      }
+      continue;
+    }
+
+    cell += char;
+  }
+
+  if (inQuotes) {
+    throw new Error("CSV contains an unterminated quoted value.");
+  }
+
+  pushRow();
+  return rows;
+};
+
 export const parseCsvToChartData = (rawCsv: string): ChartData => {
-  const rows = rawCsv
-    .split(/\r?\n/)
-    .map((row) => row.trim())
-    .filter((row) => row.length > 0);
+  const rows = parseCsvRows(rawCsv);
 
   if (rows.length < 2) {
     throw new Error("CSV must include a header row and at least one data row.");
   }
 
-  const headers = rows[0].split(",").map((cell) => cell.trim());
+  const headers = rows[0].cells;
   if (headers.length < 2) {
     throw new Error("CSV must include at least one dataset column.");
   }
@@ -27,8 +101,8 @@ export const parseCsvToChartData = (rawCsv: string): ChartData => {
   }));
 
   for (let rowIndex = 1; rowIndex < rows.length; rowIndex += 1) {
-    const csvRowNumber = rowIndex + 1;
-    const cells = rows[rowIndex].split(",").map((cell) => cell.trim());
+    const csvRowNumber = rows[rowIndex].rowNumber;
+    const cells = rows[rowIndex].cells;
     if (cells.length !== headers.length) {
       throw new Error(
         `Row ${csvRowNumber} has ${cells.length} columns, expected ${headers.length}.`,
