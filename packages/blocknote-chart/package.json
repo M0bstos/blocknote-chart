@@ -1,6 +1,6 @@
 {
   "name": "@m0bstos/blocknote-chart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "author": "Harsh Nanda (https://github.com/M0bstos)",
   "repository": {
@@ -9,7 +9,10 @@
   },
   "private": false,
   "type": "module",
-  "files": ["dist", "style.css"],
+  "files": [
+    "dist",
+    "style.css"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,7 +24,9 @@
     },
     "./style.css": "./style.css"
   },
-  "sideEffects": ["./style.css"],
+  "sideEffects": [
+    "./style.css"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
